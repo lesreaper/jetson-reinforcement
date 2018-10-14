@@ -46,36 +46,36 @@ if [ $BUILD_PYTORCH = "ON" ] || [ $BUILD_PYTORCH = "YES" ] || [ $BUILD_PYTORCH =
 
 	echo "[Pre-build]  beginning pyTorch setup"
 
-	sudo apt-get install python-pip
+	sudo apt-get install python3-pip
 
 	# upgrade pip
-	pip --version
-	pip install --upgrade pip==9.0.1
-	pip --version	# pip 9.0.1 from /home/ubuntu/.local/lib/python2.7/site-packages (python 2.7)
+	pip3 --version
+	pip3 install --upgrade pip3==9.0.1
+	pip3 --version	# pip3 9.0.1 from /home/ubuntu/.local/lib/python3.5/site-packages (python 3.5)
 
 	# lock OpenAI Gym before version 10 (breaking changes)
-	sudo pip install gym==0.9.1
+	sudo pip3 install gym==0.9.1
 
 	# stuff for OpenAI Gym examples
 	sudo apt-get install python-tk python-gi-cairo
 	sudo apt-get install libfreetype6-dev	# needed by matplotlib
 
-	sudo pip install matplotlib
-	sudo pip install pyglet==1.3.1	# lock pyglet because we need to patch it
+	sudo pip3 install matplotlib
+	sudo pip3 install pyglet==1.3.1	# lock pyglet because we need to patch it
 
-	sudo sed -i 's/_have_getprocaddress = True/_have_getprocaddress = False/' /usr/local/lib/python2.7/dist-packages/pyglet/gl/lib_glx.py
+	sudo sed -i 's/_have_getprocaddress = True/_have_getprocaddress = False/' /usr/local/lib/python3.5/dist-packages/pyglet/gl/lib_glx.py
 
 	# setproctitle extension used by A3G
-	sudo pip install setproctitle 
+	sudo pip3 install setproctitle 
 	
 	# install numpy
-	sudo pip install numpy
+	sudo pip3 install numpy
 
 	# (prompt) install Jupyter/IPython
 	while true; do
 	    read -p "[Pre-build]  Do you wish to install support for Jupyter/IPython notebook (y/N)? " yn
 	    case $yn in
-		   [Yy]* ) sudo apt-get install -y ipython ipython-notebook; sudo pip install jupyter; break;;
+		   [Yy]* ) sudo apt-get install -y ipython ipython-notebook; sudo pip3 install jupyter; break;;
 		   [Nn]* ) echo "[Pre-build]  skipping Jupyter/IPython installation"; break;;
 		   * ) echo "[Pre-build]  Please answer yes or no.";;
 	    esac
@@ -95,12 +95,12 @@ if [ $BUILD_PYTORCH = "ON" ] || [ $BUILD_PYTORCH = "YES" ] || [ $BUILD_PYTORCH =
 	git submodule update --init
 
 	# install prereqs
-	sudo pip install -U setuptools
-	sudo pip install -r requirements.txt
+	sudo pip3 install -U setuptools
+	sudo pip3 install -r requirements.txt
 
 	# Develop Mode:
-	python setup.py build_deps
-	sudo python setup.py develop
+	pytho3n setup.py build_deps
+	sudo python3 setup.py develop
 
 	cd torch
 	ln -s _C.so lib_C.so
@@ -111,14 +111,14 @@ if [ $BUILD_PYTORCH = "ON" ] || [ $BUILD_PYTORCH = "YES" ] || [ $BUILD_PYTORCH =
 	cd ../../
 
 	git clone https://github.com/pytorch/examples
-	sudo pip install -r examples/reinforcement_learning/requirements.txt 
+	sudo pip3 install -r examples/reinforcement_learning/requirements.txt 
 
 	git clone https://github.com/pytorch/vision
 	cd vision
-	sudo python setup.py install
+	sudo python3 setup.py install
 
 	sudo apt-get install swig
-	sudo pip install box2D
+	sudo pip3 install box2D
 
 	cd ../../
 
@@ -283,11 +283,11 @@ echo ""
 
 #echo "installing iTorch"
 #sudo apt-get install libzmq3-dev libssl-dev python-zmq
-#sudo pip install ipython
+#sudo pip3 install ipython
 #ipython --version
-## pip uninstall IPython
-## pip install ipython==3.2.1
-#sudo pip install jupyter
+## pip3 uninstall IPython
+## pip3 install ipython==3.2.1
+#sudo pip3 install jupyter
 #git clone https://github.com/facebook/iTorch.git
 #$TORCH_PREFIX/bin/luarocks install $BUILD_ROOT/iTorch/itorch-scm-1.rockspec
 
